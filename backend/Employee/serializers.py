@@ -11,5 +11,6 @@ class EmployeesSerializer(serializers.ModelSerializer):
             'contact_no' ,
             'email' ,
             'address' ,
+            'position' ,
             'salary' ,
             'department' )
