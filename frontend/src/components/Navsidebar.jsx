@@ -17,13 +17,13 @@ const Navsidebar = () => {
         </CDBSidebarHeader>
         <CDBSidebarContent>
           <CDBSidebarMenu>
-            <NavLink exact to='/' activeClassName='activeClicked'>
+            <NavLink exact to='/' >
               <CDBSidebarMenuItem icon="home">Home</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to='/Employees' activeClassName='activeClicked'>
+            <NavLink exact to='/Employees' >
               <CDBSidebarMenuItem icon="list">Employees List</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to='/manage' activeClassName='activeClicked'>
+            <NavLink exact to='/manage' >
               <CDBSidebarMenuItem icon="user" iconType="solid">
                 Manage Employees
               </CDBSidebarMenuItem>
