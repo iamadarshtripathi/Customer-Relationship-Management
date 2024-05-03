@@ -3,31 +3,58 @@ import { getEmployees, deleteEmployee } from "../service/EmployeeService";
 import { Button, ButtonToolbar } from "react-bootstrap";
 import "../App.css";
 import Table from "react-bootstrap/Table";
-import AddEmployeeModal from './AddEmployeeModal';
+import AddEmployeeModal from "./AddEmployeeModal";
+import UpdateEmployeeModal from "./UpdateEmployeeModal";
 
 const Manage = () => {
   const [employees, setEmployees] = useState([]);
   const [addModelShow, setAddModelShow] = useState(false);
+  const [editModelShow, setEditModelShow] = useState(false);
+  const [editEmployee, setEditEmployee] = useState([]);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(() => {
     let mounted = true;
+    if (employees.length && !isUpdated) {
+      return;
+    }
     getEmployees().then((data) => {
       if (mounted) {
         setEmployees(data);
       }
     });
-    return () => (mounted = false);
-  }, []);
+    return () => {
+      mounted = false;
+      setIsUpdated(false);
+    };
+  }, [isUpdated, employees]);
 
   const handleAdd = (e) => {
     e.preventDefault();
     setAddModelShow(true);
-  }
+  };
+  const handleUpdate = (e, emp) => {
+    e.preventDefault();
+    setEditModelShow(true);
+    setEditEmployee(emp);
+  };
+
+  const handleDelete = (e, empId) => {
+    if (window.confirm("Are you sure?")) {
+      e.preventDefault();
+      deleteEmployee(empId).then(
+        (result) => {
+          alert(result);
+          setIsUpdated(true);
+        },
+        (error) => {
+          alert("Failed to Delete Employee");
+        })
+    }
+  };
 
   let AddModalClose = () => setAddModelShow(false);
-
-
-
+  let EditModalClose = () => setEditModelShow(false);
 
   return (
     <div className="row side-row">
@@ -61,11 +88,25 @@ const Manage = () => {
               <td>{emp.salary}</td>
               <td>{emp.department}</td>
               <td>
-                <Button className="mr-2" variant="primary">
+                <Button
+                  className="mr-2"
+                  variant="primary"
+                  onClick={(event) => handleUpdate(event, emp)}
+                >
                   Update
                 </Button>{" "}
-                <Button className="mr-2" variant="danger">
-                  Danger
+                <UpdateEmployeeModal
+                  show={editModelShow}
+                  onHide={EditModalClose}
+                  employee={editEmployee}
+                  setUpdated={setIsUpdated}
+                ></UpdateEmployeeModal>
+                <Button
+                  className="mr-2"
+                  variant="danger"
+                  onClick={(event) => handleDelete(event, emp.empId)}
+                >
+                  Delete
                 </Button>{" "}
               </td>
             </tr>
@@ -76,7 +117,11 @@ const Manage = () => {
         <Button className="mr-2" variant="success" onClick={handleAdd}>
           Add Employee
         </Button>{" "}
-        <AddEmployeeModal show={addModelShow} onHide={AddModalClose}></AddEmployeeModal>
+        <AddEmployeeModal
+          show={addModelShow}
+          onHide={AddModalClose}
+          setUpdated={setIsUpdated}
+        ></AddEmployeeModal>
       </ButtonToolbar>
     </div>
   );

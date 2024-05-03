@@ -4,18 +4,18 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import "../App.css";
 import { Row, Col } from "react-bootstrap";
-import { addEmployee } from "../service/EmployeeService";
+import { updateEmployee } from "../service/EmployeeService";
 
-const AddEmployeeModal = (props) => {
+const UpdateEmployeeModal = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    addEmployee(e.target).then(
+    updateEmployee(props.employee.empId , e.target).then(
       (result) => {
         alert(result);
         props.setUpdated(true);
       },
       (error) => {
-        alert("Failed to add Employee");
+        alert("Failed to update Employee");
       }
     );
   };
@@ -29,7 +29,7 @@ const AddEmployeeModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-model-title-vcenter">
-          Fill In Employee Information
+          Update Employee Information
         </Modal.Title>
       </Modal.Header>
 
@@ -45,6 +45,7 @@ const AddEmployeeModal = (props) => {
                   type="text"
                   placeholder="Enter first name"
                   name="first_name"
+                  defaultValue={props.employee.first_name}
                   required
                 />
               </Form.Group>
@@ -57,6 +58,7 @@ const AddEmployeeModal = (props) => {
                   type="text"
                   placeholder="Enter last name"
                   name="last_name"
+                  defaultValue={props.employee.last_name}
                   required
                 />
               </Form.Group>
@@ -65,7 +67,7 @@ const AddEmployeeModal = (props) => {
                 <Form.Label>
                   Gender <span className="text-danger">*</span>
                 </Form.Label>
-                <Form.Select aria-label="Select gender" name="gender" required>
+                <Form.Select aria-label="Select gender" name="gender" defaultValue={props.employee.gender} required>
                   <option value="">Select gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -81,6 +83,7 @@ const AddEmployeeModal = (props) => {
                   type="text"
                   placeholder="Enter contact number"
                   name="contact_no"
+                  defaultValue={props.employee.contact_no}
                   required
                 />
               </Form.Group>
@@ -93,6 +96,7 @@ const AddEmployeeModal = (props) => {
                   type="email"
                   placeholder="Enter email"
                   name="email"
+                  defaultValue={props.employee.email}
                   required
                 />
                 <Form.Text className="text-muted">
@@ -108,6 +112,7 @@ const AddEmployeeModal = (props) => {
                   as="textarea"
                   placeholder="Enter address"
                   name="address"
+                  defaultValue={props.employee.address}
                   required
                 />
               </Form.Group>
@@ -120,6 +125,7 @@ const AddEmployeeModal = (props) => {
                   type="text"
                   placeholder="Enter position"
                   name="position"
+                  defaultValue={props.employee.position}
                   required
                 />
               </Form.Group>
@@ -132,6 +138,7 @@ const AddEmployeeModal = (props) => {
                   type="text"
                   placeholder="Enter salary"
                   name="salary"
+                  defaultValue={props.employee.salary}
                   required
                 />
               </Form.Group>
@@ -143,6 +150,7 @@ const AddEmployeeModal = (props) => {
                 <Form.Select
                   aria-label="Select department"
                   name="department"
+                  defaultValue={props.employee.department}
                   required
                 >
                   <option value="">Select department</option>
@@ -174,4 +182,4 @@ const AddEmployeeModal = (props) => {
   );
 };
 
-export default AddEmployeeModal;
+export default UpdateEmployeeModal;

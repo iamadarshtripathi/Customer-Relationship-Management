@@ -14,3 +14,7 @@ body, html {
 .side-row {
   padding: 30px;
 }
+
+.text-danger {
+  color: red;
+}
